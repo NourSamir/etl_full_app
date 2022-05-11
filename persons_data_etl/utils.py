@@ -26,7 +26,7 @@ def map_person_object(person_obj):
     transformed_person["age_range_end"] = age_range_end
 
     if len(person_obj.get("email", "")) != 0:
-        transformed_person["email_provider"] = person_obj.get("email").split('@')[1]
+        transformed_person["email_provider"] = person_obj.get("email").split('@')[1].lower()
     else:
         transformed_person["email_provider"] = ""
 

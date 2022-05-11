@@ -10,7 +10,7 @@ def get_persons_total_count():
 
 
 def get_persons_filtered_by_age_email_provider(age, email_provider):
-    query = 'SELECT COUNT(*) FROM persons WHERE age_range_end > \'%d\' AND email_provider = \'%s\'' % (age, email_provider)
+    query = 'SELECT COUNT(*) FROM persons WHERE age_range_end > \'%d\' AND email_provider = \'%s\'' % (age, email_provider.lower())
     result = DBMS.execute_query(query)
     return {
         "count": result.first()[0]
@@ -24,7 +24,7 @@ def get_percentage_of_country_by_email_provider(country, email_provider):
          FROM\
             persons\
         WHERE\
-            country = \'%s\' AND email_provider = \'%s\'' % (country, email_provider)
+            country = \'%s\' AND email_provider = \'%s\'' % (country, email_provider.lower())
 
     result = DBMS.execute_query(query)
     return {
@@ -44,7 +44,7 @@ def get_top_countries_by_email_provider(top_n, email_provider):
             country, email_provider\
         ORDER BY\
             count(*) DESC\
-        LIMIT \'%d\'' % (email_provider, top_n)
+        LIMIT \'%d\'' % (email_provider.lower(), top_n)
 
     result = DBMS.execute_query(query)
     response = {}

@@ -3,8 +3,8 @@ from app_service.api_base import *
 from app_service.utils import *
 
 
-# http://127.0.0.1:5000/persons/total_cnt
-@app.route("/persons/total_cnt", methods=['GET'])
+# http://127.0.0.1:5000/persons/total_count
+@app.route("/persons/total_count", methods=['GET'])
 def get_total_count():
 	response = get_persons_total_count()
 	return jsonify(
@@ -16,8 +16,8 @@ def get_total_count():
 @app.route("/persons/filterByAgeAndEmailProvider", methods=['GET'])
 def get_count_age_by_email_provider():
 	args = request.args
-	age = int(args.get("age", 0))
-	email_provider = args.get("email_provider", "")
+	age = int(args.get("age", 60))
+	email_provider = args.get("email_provider", "gmail.com")
 	response = get_persons_filtered_by_age_email_provider(age, email_provider)
 	return jsonify(
 		response
@@ -28,8 +28,8 @@ def get_count_age_by_email_provider():
 @app.route("/persons/percentageCountryAndEmailProvider", methods=['GET'])
 def get_percentage():
 	args = request.args
-	country = args.get("country", "")
-	email_provider = args.get("email_provider", "")
+	country = args.get("country", "Germany")
+	email_provider = args.get("email_provider", "gmail.com")
 
 	response = get_percentage_of_country_by_email_provider(country, email_provider)
 	return jsonify(
@@ -41,8 +41,8 @@ def get_percentage():
 @app.route("/persons/topCountriesByEmailProvider", methods=['GET'])
 def get_top_countries():
 	args = request.args
-	top_n = int(args.get("top_n", 0))
-	email_provider = args.get("email_provider", "")
+	top_n = int(args.get("top_n", 3))
+	email_provider = args.get("email_provider", "gmail.com")
 
 	response = get_top_countries_by_email_provider(top_n, email_provider)
 
