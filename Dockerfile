@@ -13,9 +13,14 @@ ENV PYTHONPATH=${PYTHONPATH}:/app
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install .
 
 # Install our faker_data_etl python package and expose the needed CLI commands
-RUN python3 setup.py develop
+# RUN python3 setup.py develop
+
+# RUN cd /app && \
+#  python3 setup.py develop && \
+#  pip3 freeze > /app/requirements.installed
 
 EXPOSE 5000 5001
 
