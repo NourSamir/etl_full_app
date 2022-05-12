@@ -53,27 +53,54 @@ def get_top_countries_by_email_provider(top_n, email_provider):
 
     return response
 
-def serialize_persons_obj(person):
+def serialize_persons_obj(person_obj, with_masking=True, mask_len=4):
     person_dict = dict()
 
-    person_dict["first_name"] = person.first_name
-    person_dict["last_name"] = person.last_name
-    person_dict["gender"] = person.gender
-    person_dict["email"] = person.email
-    person_dict["phone_number"] = person.phone_number
-    person_dict["country"] = person.country
-    person_dict["city"] = person.city
-    person_dict["county_code"] = person.county_code
-    person_dict["street"] = person.street
-    person_dict["building_number"] = person.building_number
-    person_dict["lat"] = person.lat
-    person_dict["long"] = person.long
-    person_dict["zip_code"] = person.zip_code
-    person_dict["age_range_start"] = person.age_range_start
-    person_dict["age_range_end"] = person.age_range_end
-    person_dict["email_provider"] = person.email_provider
-    person_dict["created_at"] = person.created_at.strftime('%Y/%m/%d')
-    person_dict["updated_at"] = person.updated_at.strftime('%Y/%m/%d')
+    person_dict["first_name"] = person_obj.first_name
+    person_dict["last_name"] = person_obj.last_name
+    person_dict["gender"] = person_obj.gender
+    person_dict["email"] = person_obj.email
+    person_dict["phone_number"] = person_obj.phone_number
+    person_dict["country"] = person_obj.country
+    person_dict["city"] = person_obj.city
+    person_dict["county_code"] = person_obj.county_code
+    person_dict["street"] = person_obj.street
+    person_dict["building_number"] = person_obj.building_number
+    person_dict["lat"] = person_obj.lat
+    person_dict["long"] = person_obj.long
+    person_dict["zip_code"] = person_obj.zip_code
+    person_dict["age_range_start"] = person_obj.age_range_start
+    person_dict["age_range_end"] = person_obj.age_range_end
+    person_dict["email_provider"] = person_obj.email_provider
+    person_dict["created_at"] = person_obj.created_at.strftime('%Y/%m/%d')
+    person_dict["updated_at"] = person_obj.updated_at.strftime('%Y/%m/%d')
+
+    if with_masking:
+        return mask(person_dict, mask_len)
 
     return person_dict
 
+
+
+def mask(serialized_person_dict, mask_len):
+    person_identifications = [
+        'first_name', 'last_name', 'phone_number', 'email', 
+        'country', 'city', 'county_code', 'street', 'building_number', 'zip_code'
+    ]
+
+    # Discard the email_provider to apply the masking on the email itself
+    serialized_person_dict['email'] = serialized_person_dict['email'].split('@')[0]
+
+    for identifier in person_identifications:
+        identifier_val = serialized_person_dict[identifier]
+        if len(identifier_val) > mask_len:
+            identifier_val_part_1 = identifier_val[0: len(identifier_val) - mask_len]
+            identifier_val_part_2 = "X" * mask_len
+            serialized_person_dict[identifier] = identifier_val_part_1 + identifier_val_part_2
+        else:
+            serialized_person_dict[identifier] = "X" * len(identifier_val)
+
+    # Restor the email_provider
+    serialized_person_dict['email'] = f"{serialized_person_dict['email']}@{serialized_person_dict['email_provider']}"
+
+    return serialized_person_dict

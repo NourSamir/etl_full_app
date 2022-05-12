@@ -74,6 +74,9 @@ def get_persons_data():
 	args = request.args
 	page_num = int(args.get('pageNo', 1))
 	page_size = int(args.get('pageSize', 10))
+	mask_len = int(args.get('mask_len', 4))
+	with_masking = True if args.get('with_masking').lower() == 'true' else False
+	
 	offset = ((page_num - 1) * page_size)
 	pages_count, next_page_url, prev_page_url = 0, None, None
 
@@ -91,8 +94,9 @@ def get_persons_data():
 		if page_num > 1:
 			prev_page_url = request.url_root + request.path[1:] + '?pageNo=' + str(page_num - 1) + '&pageSize=' + str(page_size)
 
+	
 	data = persons_data_generator.offset(offset).limit(page_size).all()
-	serialized_data = list(map(lambda row: serialize_persons_obj(row), data))
+	serialized_data = list(map(lambda row: serialize_persons_obj(row, with_masking, mask_len), data))
 
 	response = {
 		"data": serialized_data,
