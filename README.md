@@ -86,11 +86,13 @@ The ETL extracts the data from the public FakerAPI, Trnasforms
 ## APP Service Usage
 The App service aims to implement a set of REST APIs on top of the destination DB to get some metrics and KPIs out of the 
 persisted data by the ETL. Mainly you will find **6** endpoint described as following.
-- **/persons**:- This endpoint enables you of getting the data according to a pagination parameters.
+- **/persons**:- This endpoint enables you of getting the data according to a pagination and masking parameters.
     - Parameters:
         - pageNo:- Integer, Default = 1
         - pageSize:- Integer, Default = 10
-    - Request: http://127.0.0.1:5000/persons?pageNo=1&pageSize=5
+        - authorized:- Boolean, Default = True
+        - mask_len:- Integer, Default = 4
+    - Request: http://127.0.0.1:5000/persons?pageNo=1&pageSize=5&authorized=false
     - Response:
         ```json
         {
@@ -119,7 +121,42 @@ persisted data by the ETL. Mainly you will find **6** endpoint described as foll
             {},
           ], 
           "dataCount": 5, 
-          "nextPageURL": "http://127.0.0.1:5000/persons?pageNo=2&pageSize=5", 
+          "nextPageURL": "http://127.0.0.1:5000/persons?pageNo=2&pageSize=5&authorized=false", 
+          "pagesCount": 200, 
+          "prevPageURL": null, 
+          "totalPersonsCount": 1000
+        }
+        ```
+    - Request: http://127.0.0.1:5000/persons?pageNo=1&pageSize=5&authorized=true&mask_len=4
+    - Response:
+        ```json
+        {
+          "data": [
+            {
+              "age_range_end": 80, 
+              "age_range_start": 70, 
+              "building_number": "XXXX", 
+              "city": "MohammadXXXX", 
+              "country": "SwXXXX", 
+              "county_code": "XX", 
+              "created_at": "2022/05/12", 
+              "email": "donato.kXXXX@hotmail.com", 
+              "email_provider": "hotmail.com", 
+              "first_name": "WilXXXX", 
+              "gender": "male", 
+              "last_name": "HomeXXXX", 
+              "lat": -39.915544, 
+              "long": 74.507826, 
+              "phone_number": "+784564482XXXX", 
+              "street": "Wintheiser DrXXXX", 
+              "updated_at": "2022/05/12", 
+              "zip_code": "7XXXX"
+            },
+            {},
+            {}
+          ], 
+          "dataCount": 5, 
+          "nextPageURL": "http://127.0.0.1:5000/persons?pageNo=2&pageSize=5&authorized=true&mask_len=4", 
           "pagesCount": 200, 
           "prevPageURL": null, 
           "totalPersonsCount": 1000
