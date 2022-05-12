@@ -90,7 +90,7 @@ persisted data by the ETL. Mainly you will find **6** endpoint described as foll
     - Parameters:
         - pageNo:- Integer, Default = 1
         - pageSize:- Integer, Default = 10
-        - authorized:- Boolean, Default = True
+        - authorized:- Boolean, Default = False
     - Request: http://127.0.0.1:5000/persons?pageNo=1&pageSize=5&authorized=true
     - Response:
         ```json
