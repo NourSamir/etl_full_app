@@ -91,8 +91,7 @@ persisted data by the ETL. Mainly you will find **6** endpoint described as foll
         - pageNo:- Integer, Default = 1
         - pageSize:- Integer, Default = 10
         - authorized:- Boolean, Default = True
-        - mask_len:- Integer, Default = 4
-    - Request: http://127.0.0.1:5000/persons?pageNo=1&pageSize=5&authorized=false
+    - Request: http://127.0.0.1:5000/persons?pageNo=1&pageSize=5&authorized=true
     - Response:
         ```json
         {
@@ -121,13 +120,13 @@ persisted data by the ETL. Mainly you will find **6** endpoint described as foll
             {},
           ], 
           "dataCount": 5, 
-          "nextPageURL": "http://127.0.0.1:5000/persons?pageNo=2&pageSize=5&authorized=false", 
+          "nextPageURL": "http://127.0.0.1:5000/persons?pageNo=2&pageSize=5&authorized=True", 
           "pagesCount": 200, 
           "prevPageURL": null, 
           "totalPersonsCount": 1000
         }
         ```
-    - Request: http://127.0.0.1:5000/persons?pageNo=1&pageSize=5&authorized=true&mask_len=4
+    - Request: http://127.0.0.1:5000/persons?pageNo=1&pageSize=5&authorized=false
     - Response:
         ```json
         {
@@ -153,10 +152,10 @@ persisted data by the ETL. Mainly you will find **6** endpoint described as foll
               "zip_code": "7XXXX"
             },
             {},
-            {}
+            {},
           ], 
           "dataCount": 5, 
-          "nextPageURL": "http://127.0.0.1:5000/persons?pageNo=2&pageSize=5&authorized=true&mask_len=4", 
+          "nextPageURL": "http://127.0.0.1:5000/persons?pageNo=2&pageSize=5&authorized=False", 
           "pagesCount": 200, 
           "prevPageURL": null, 
           "totalPersonsCount": 1000
