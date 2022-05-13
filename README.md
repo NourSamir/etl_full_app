@@ -1,7 +1,7 @@
 ## ETL Full Application
 This project implements an ETL to extract the persons data from the public FakerAPI,
-Transform this data in terms of cleaning, mapping, pasing and generalization and loads
-this data into Sqlite DB.
+Transform this data in terms of cleaning, mapping, parsing and generalization then loads
+the data into Sqlite DB.
 On the other side that project implements a web application (REST APIs) on top of our data to manipulate it
 in terms of getting some metrics and stats, display the data to our users and implement a report to help 
 our users get more insights about their data.<br /> <br /> 
